@@ -1,4 +1,5 @@
-create database management_student;
+drop database if exists management_student;
+create database IF NOT EXISTS management_student;
 use management_student;
 
 create table class(
@@ -11,7 +12,7 @@ alter table class add adress varchar(255);
 update class set adress="đà nẵng"
 where class_id=1;
 select*from class;
-delete from class where id=1;
+delete from class where name="C0422G1";
 alter table class drop address;
 
 
