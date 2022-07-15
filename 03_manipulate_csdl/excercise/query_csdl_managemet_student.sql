@@ -12,8 +12,8 @@ create table class(
 
 insert into class(class_name,start_date,`status`) 
  values ('A1',"2018-12-20",1),
-		("A2","2018-12-22",1),
-		("B3",current_date,0);
+	("A2","2018-12-22",1),
+	("B3",current_date,0);
 	
 create table student(
 	student_id int auto_increment primary key,
@@ -27,8 +27,8 @@ create table student(
 
 insert into student(student_name, address,phone,`status`,class_id) 
   values("Hung","Ha noi","0912113113",1,1),
-		("hoa","Hai Phong",null,1,1),
-		("Manh","HCM",0123123123,0,2);
+	("hoa","Hai Phong",null,1,1),
+	("Manh","HCM",0123123123,0,2);
 		
 
 create table `subject`(
@@ -40,9 +40,9 @@ create table `subject`(
 
 insert into `subject`(subject_name, credit,`status`) 
   values("CF",5,1),
-		("C",6,1),
-		("HDJ",5,1),
-		("RDBMS",10,1);
+	("C",6,1),
+	("HDJ",5,1),
+	("RDBMS",10,1);
 
 	
 create table mark(
@@ -59,8 +59,8 @@ foreign key(student_id) references student(student_id)
 
 insert  into mark( subject_id,student_id,mark,exam_time) 
   values(1,1,8,1),
-		(1,2,10,2),
-		(2,1,12,1);
+	(1,2,10,2),
+	(2,1,12,1);
 	
 -- Hiển thị tất cả các sinh viên có tên bắt đầu bảng ký tự ‘h’
 
