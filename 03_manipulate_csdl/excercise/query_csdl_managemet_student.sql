@@ -66,7 +66,7 @@ insert  into mark( subject_id,student_id,mark,exam_time)
 
 select *
 from student 
-where student_name regexp "\\w+\\sh|H[a-z]+";
+where student_name like "H%";
 
 -- Hiển thị các thông tin lớp học có thời gian bắt đầu vào tháng 12.
 
@@ -87,13 +87,15 @@ where student_name="Hung";
 
 -- Hiển thị các thông tin: StudentName, SubName, Mark. Dữ liệu sắp xếp theo điểm thi (mark) giảm dần. nếu trùng sắp theo tên tăng dần.
 
-select student.student_name, `subject`.subject_name, mark.mark
-from student
-inner join mark
-on student.student_id=mark.student_id
-join `subject`
-on `subject`.subject_id=mark.subject_id
-order by mark.mark desc,student.student_name ;
+select 
+    student.student_name, `subject`.subject_name, mark.mark
+from
+    student
+         inner join
+    mark on student.student_id = mark.student_id
+        join
+    `subject` on `subject`.subject_id = mark.subject_id
+order by mark.mark desc , student.student_name;
 
 
 
