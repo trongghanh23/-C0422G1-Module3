@@ -83,7 +83,7 @@ FROM
 --   Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
 
 SELECT 
-  *,AVG(m.mark) as diem_trung_binh
+  s.*,AVG(m.mark) as diem_trung_binh
 FROM
     student s
         JOIN
