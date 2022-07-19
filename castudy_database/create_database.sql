@@ -1,11 +1,11 @@
-DROP DATABASE castudy;
+DROP  DATABASE if exists castudy;
 CREATE DATABASE IF NOT EXISTS  castudy;
 USE castudy;
 
 CREATE TABLE vi_tri (
-    ma_vi_tri INT,
-    ten_vi_tri VARCHAR(45),
-    PRIMARY KEY (ma_vi_tri)
+    ma_vi_tri INT   PRIMARY KEY,
+    ten_vi_tri VARCHAR(45)
+ 
 );
 
 INSERT INTO vi_tri 
@@ -66,13 +66,13 @@ VALUES("Nguyễn Văn An","1970-11-07","456231786","10000000","0901234121","aNng
 ("Tòng HoaNg","1982-09-03","256781231","6000000","0245144444","hoangtong@gmail.COM","213 Hàm Nghi, Đà Nẵng",2,4,4),
 ("Nguyễn CôNg Đạo","1994-01-08","755434343","8000000","0988767111","nguyencongdao12@gMAIL.COM","6 Hoà Khánh, Đồng Nai",2,3,2);
 
-creAte table loAi_khach (
-    ma_loai_Khach int  primary key,
-    Ten_loai_khach varchar(45)
+CREATE TABLE loai_khach (
+    ma_loai_Khach INT  PRIMARY KEY,
+    Ten_loai_khach VARCHAR(45)
   
 );
-INSert INTO lOAI_Khach
-values(	1,"Diamond"),
+INSERT INTO loai_Khach
+VALUES(	1,"Diamond"),
 	(2,"PLAtiNIUM"),
 	(3,"Gold"),
 	(4,"Silver"),
@@ -108,45 +108,45 @@ VALUES("Nguyễn Thị Hào","1970-11-07",0,"643431213","0945423362","thiHao07@g
 
 
 
-CREATE TABLE loai_dich_VU (
-    ma_lOai_dich_vu INT PRIMARY KEY,
+CREATE TABLE loai_dich_vu (
+    ma_loai_dich_vu INT PRIMARY KEY,
     ten_loai_dich_vu VARCHAR(45)
 );
 
-INSERT INTO LOAI_dich_vu
+INSERT INTO loai_dich_vu
 VALUES(1,"Villa"),
 (2,"House"),
 (3,"ROOm");
 
-CREATE TABLE kieu_thuE (
-    MA_kIeu_THUE INT PRIMARY KEY,
-    TEN_KIEU_thue VARCHAR(45)
+CREATE TABLE kieu_thue (
+    ma_kieu_thue INT PRIMARY KEY,
+    ten_kieu_thue VARCHAR(45)
 );
 
-INSERT INTO kiEU_THUe
+INSERT INTO kieu_thue
 VALUES(1,"year"),
 (2,"month"),
 (3,"DAy"),
 (4,"HOUR");
 
-CREATE TABLE dICH_VU (
-    ma_DICH_Vu INT AUTO_INCREMENT  PRIMARY KEY,
-    ten_dICh_VU VARCHAR(45),
-    dieN_TICH INT,
-    chi_pHi_thue DOUBLE,
-    sO_NGUOI_TOI_DA INT,
-    TIEU_chuan_phong VARCHAR(45),
-    ma_ta_tien_nghI_KHac VARCHAR(45),
-    DIEN_tich_ho_boi DOUBLE,
-    So_tang INT,
-    dich_vU_MIEN_PHI_Di_kem TEXT,
-    ma_kieu_thUE INT,
+CREATE TABLE dich_vu (
+    ma_dich_vu INT AUTO_INCREMENT  PRIMARY KEY,
+    ten_dich_vu VARCHAR(45),
+    dien_tich INT,
+    chi_phi_thue DOUBLE,
+    so_nguoi_toi_da INT,
+    tieu_chuan_phong VARCHAR(45),
+    mo_ta_tien_nghi_khac VARCHAR(45),
+    dien_tich_ho_boi DOUBLE,
+    so_tang INT,
+    dich_vu_mien_phi_di_kem TEXT,
+    ma_kieu_thue INT,
     ma_loai_dich_vu INT,
-    FOREIGN KEY(ma_loAI_Dich_vu) REFERENCES  loai_dich_VU(Ma_loai_dich_vu),
-    FOREIGN KEY(ma_kieu_thUE) REFERENCES  kIEU_thue(ma_kieu_thUe)
+    FOREIGN KEY(ma_loai_dich_vu) REFERENCES  loai_dich_vu(ma_loai_dich_vu),
+    FOREIGN KEY(ma_kieu_thue) REFERENCES  kieu_thue(ma_kieu_thue)
 );
 
-INSERT INTO dich_vU(ten_dich_vu, dIEn_ticH, CHI_pHI_Thue,  so_nguOi_TOI_DA ,Tieu_chuan_pHong,ma_ta_tiEn_nghI_KHAC,DIEN_tich_ho_boi,so_tang,dich_vu_miEn_phi_di_kem, ma_kieu_thue,  ma_Loai_dich_vu)
+INSERT INTO dich_vu(ten_dich_vu, dien_ticH, chi_phi_thue,  so_nguoi_toi_da,tieu_chuan_phong,mo_ta_tien_nghi_khac,dien_tich_ho_boi,so_tang,dich_vu_mien_phi_di_kem, ma_kieu_thue,  ma_oai_dich_vu)
 	VALUES("Beach Front",25000,1000000,10,"vIp","Có Hồ bơi",500,4,NULL,3,1),	
 	("HoUse PriNcess 01",14000,5000000,7,"VIP","Có thêm BẾP NƯỚNG",NULL,3,nulL,2,2),	
 	("ROOM TWIN 01",5000,1000000,2,"NORMAL","Có tivi",NULL,NULL,"1XE MÁY, 1 Xe đạp",4,3),
@@ -225,7 +225,8 @@ SELECT
 FROM
     nhan_vien
 WHERE
-    ho_ten REGEXP '^[HKT]'
+    ((ho_ten LIKE 'H%') OR (ho_ten LIKE 'K%')
+        OR (ho_ten LIKE 'T%'))
         AND CHAR_LENGTH(ho_ten) <= 15;
 
 -- 3.	Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi 
@@ -345,7 +346,7 @@ GROUP BY dich_vu.ma_dich_vu;
 
 -- Cách 1:
 SELECT 
-    khach_hang.ho_ten
+    ho_ten
 FROM
     khach_hang 
 GROUP BY khach_hang.ho_ten;
@@ -359,12 +360,12 @@ FROM
     
 -- Cách 3:
 SELECT 
-    khach_hang.ho_ten
+  ho_ten
 FROM
     khach_hang  
 UNION
 SELECT 
-    khach_hang.ho_ten
+  ho_ten
 FROM
     khach_hang ;
     
