@@ -64,21 +64,27 @@ INSERT  INTO mark( subject_id,student_id,mark,exam_time)
 	(2,1,12,1);
     
    --  Hiển thị tất cả các thông tin môn học (bảng subject) có credit lớn nhất.
-  SELECT 
+SELECT 
     *
 FROM
     `subject`
-having credit>=all(select max(credit) from `subject`);
+HAVING credit >= ALL (SELECT 
+        MAX(credit)
+    FROM
+        `subject`);
 
   --   Hiển thị các thông tin môn học có điểm thi lớn nhất.
   
- SELECT 
- *
+SELECT 
+    *
 FROM
     `subject` s
         JOIN
     mark m ON s.subject_id = m.subject_id
-    having m.mark >= all (select max(mark) from mark);
+HAVING m.mark >= ALL (SELECT 
+        MAX(mark)
+    FROM
+        mark);
 --   
 --   Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
 
