@@ -146,8 +146,8 @@ CREATE TABLE dich_vu (
     FOREIGN KEY(ma_kieu_thue) REFERENCES  kieu_thue(ma_kieu_thue)
 );
 
-INSERT INTO dich_vu(ten_dich_vu, dien_ticH, chi_phi_thue,  so_nguoi_toi_da,tieu_chuan_phong,mo_ta_tien_nghi_khac,dien_tich_ho_boi,so_tang,dich_vu_mien_phi_di_kem, ma_kieu_thue,  ma_oai_dich_vu)
-	VALUES("Beach Front",25000,1000000,10,"vIp","Có Hồ bơi",500,4,NULL,3,1),	
+INSERT INTO dich_vu(ten_dich_vu, dien_ticH, chi_phi_thue,  so_nguoi_toi_da,tieu_chuan_phong,mo_ta_tien_nghi_khac,dien_tich_ho_boi,so_tang,dich_vu_mien_phi_di_kem, ma_kieu_thue,  ma_loai_dich_vu)
+	VALUES("Beach Front",25000,10000000,10,"vIp","Có Hồ bơi",500,4,NULL,3,1),	
 	("HoUse PriNcess 01",14000,5000000,7,"VIP","Có thêm BẾP NƯỚNG",NULL,3,nulL,2,2),	
 	("ROOM TWIN 01",5000,1000000,2,"NORMAL","Có tivi",NULL,NULL,"1XE MÁY, 1 Xe đạp",4,3),
     ("VilLA NO BEACH FRONT",22000,9000000,8,"NORMAL","CÓ HỒ BƠI",300,3,Null,3,1),	
@@ -165,7 +165,7 @@ CREATE TABLE hop_dong (
     ma_dich_vu INT,
 	
     FOREIGN KEY(ma_nhan_vien) REFERENCES nhan_vien(ma_nhan_vien),
-    FOREIGN KEY(ma_khach_hang) REFERENCES khach_hang(ma_khach_hang),
+    FOREIGN KEY(ma_khach_hang) REFERENCES khach_hang(ma_khach_hang) on delete set null,
     FOREIGN KEY(ma_dich_vu) REFERENCES dich_vu(ma_dich_vu)
 );
 INSERT INTO hop_dong(ngay_lam_hop_dong,ngay_ket_thuc,tien_dat_coc,ma_nhan_vien,ma_khach_hang,ma_dich_vu)
@@ -526,3 +526,98 @@ WHERE
         OR YEAR(hop_dong.ngay_lam_hop_dong) = '2021'
 GROUP BY hop_dong.ma_nhan_vien
 HAVING COUNT(hop_dong.ma_nhan_vien) <= 3;
+
+
+-- 16.	Xóa những Nhân viên chưa từng lập được hợp đồng nào từ năm 2019 đến năm 2021.
+
+DELETE nv . * FROM nhan_vien nv 
+WHERE
+    nv.ma_nhan_vien NOT IN (SELECT 
+        hd.ma_nhan_vien
+    FROM
+        hop_dong hd
+    WHERE
+        year(hd.ngay_lam_hop_dong) BETWEEN 2019 AND 2021
+    GROUP BY hd.ma_nhan_vien);
+    
+--     17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond, 
+--     chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
+
+UPDATE khach_hang 
+SET 
+    ma_loai_khach = 1
+WHERE
+    ma_khach_hang = (SELECT 
+            *
+        FROM
+            (SELECT 
+                kh.ma_khach_hang
+            FROM
+                khach_hang kh
+            JOIN loai_khach lk ON kh.ma_loai_khach = lk.ma_loai_khach
+            JOIN hop_dong hd ON kh.ma_khach_hang = hd.ma_khach_hang
+            JOIN dich_vu dv ON hd.ma_dich_vu = dv.ma_dich_vu
+            JOIN hop_dong_chi_tiet ct ON hd.ma_hop_dong = ct.ma_hop_dong
+            JOIN dich_vu_di_kem dk ON ct.ma_dich_vu_di_kem = dk.ma_dich_vu_di_kem
+            WHERE
+                lk.ten_loai_khach = 'PLAtiNIUM'
+                    AND YEAR(hd.ngay_lam_hop_dong) = '2021'
+                    AND (dv.chi_phi_thue + ct.so_luong * dk.gia) > 10000000) AS cap_nhat);
+                    
+	18.	Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng).
+        
+       --  DELETE FROM khach_hang 
+WHERE
+    ma_khach_hang IN (SELECT 
+        *
+    FROM
+        (SELECT 
+            kh.ma_khach_hang
+        FROM
+            khach_hang kh
+        JOIN hop_dong hd ON kh.ma_khach_hang = hd.ma_khach_hang
+        WHERE
+            YEAR(hd.ngay_lam_hop_dong) < 2021) AS xoa_khach_hang);
+            
+-- 	19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi.
+
+UPDATE dich_vu_di_kem 
+SET 
+    gia = gia * 2
+WHERE
+    ma_dich_vu_di_kem = (SELECT 
+            *
+        FROM
+            (SELECT 
+                dk.ma_dich_vu_di_kem
+            FROM
+                dich_vu_di_kem dk
+            JOIN hop_dong_chi_tiet ct ON dk.ma_dich_vu_di_kem = ct.ma_dich_vu_di_kem
+            JOIN hop_dong hd ON ct.ma_hop_dong = hd.ma_hop_dong
+            WHERE
+                YEAR(hd.ngay_lam_hop_dong) = '2020'
+                    AND ct.so_luong > 10) AS cap_nhat_gia); 
+            
+-- 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống, thông tin hiển thị bao gồm id
+-- 	(ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
+
+
+SELECT 
+    nv.ma_nhan_vien as id, 	
+    nv.ho_ten,
+    nv.email,
+    nv.so_dien_thoai,
+    nv.ngay_sinh,
+    nv.dia_chi
+FROM
+    nhan_vien nv 
+UNION ALL 
+SELECT 
+    kh.ma_khach_hang as id,
+    kh.ho_ten, 	
+    kh.email,
+    kh.so_dien_thoai,
+    kh.ngay_sinh,
+    kh.dia_chi
+FROM
+    khach_hang kh;
