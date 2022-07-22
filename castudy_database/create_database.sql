@@ -165,7 +165,7 @@ CREATE TABLE hop_dong (
     ma_dich_vu INT,
 	
     FOREIGN KEY(ma_nhan_vien) REFERENCES nhan_vien(ma_nhan_vien),
-    FOREIGN KEY(ma_khach_hang) REFERENCES khach_hang(ma_khach_hang) on delete set null,
+    FOREIGN KEY(ma_khach_hang) REFERENCES khach_hang(ma_khach_hang), -- on delete set null
     FOREIGN KEY(ma_dich_vu) REFERENCES dich_vu(ma_dich_vu)
 );
 INSERT INTO hop_dong(ngay_lam_hop_dong,ngay_ket_thuc,tien_dat_coc,ma_nhan_vien,ma_khach_hang,ma_dich_vu)
@@ -547,7 +547,7 @@ UPDATE khach_hang
 SET 
     ma_loai_khach = 1
 WHERE
-    ma_khach_hang = (SELECT 
+    ma_khach_hang IN (SELECT 
             *
         FROM
             (SELECT 
@@ -564,9 +564,10 @@ WHERE
                     AND YEAR(hd.ngay_lam_hop_dong) = '2021'
                     AND (dv.chi_phi_thue + ct.so_luong * dk.gia) > 10000000) AS cap_nhat);
                     
-	18.	Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng).
-        
-       --  DELETE FROM khach_hang 
+-- 	18.	Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng).
+SET sql_safe_updates=0;
+SET foreign_key_checks=0;
+DELETE FROM khach_hang 
 WHERE
     ma_khach_hang IN (SELECT 
         *
@@ -576,11 +577,15 @@ WHERE
         FROM
             khach_hang kh
         JOIN hop_dong hd ON kh.ma_khach_hang = hd.ma_khach_hang
+        
         WHERE
             YEAR(hd.ngay_lam_hop_dong) < 2021) AS xoa_khach_hang);
-            
+		SET foreign_key_checks=1;
+		SET sql_safe_updates=1;
+				
 -- 	19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi.
-
+-- SET sql_safe_updates=0;
+SET foreign_key_checks=0;
 UPDATE dich_vu_di_kem 
 SET 
     gia = gia * 2
@@ -597,6 +602,9 @@ WHERE
             WHERE
                 YEAR(hd.ngay_lam_hop_dong) = '2020'
                     AND ct.so_luong > 10) AS cap_nhat_gia); 
+		SET foreign_key_checks=1;
+       --  SET sql_safe_updates=1;
+            
             
 -- 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống, thông tin hiển thị bao gồm id
 -- 	(ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
