@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .col-l-1 {width: 8.33333%;}
+        .col-l-2 {width: 16.66667%;}
+        .col-l-3 {width: 25%;}
+        .col-l-4 {width: 33.33333%;}
+        .col-l-5 {width: 41.66667%;}
+        .col-l-6 {width: 50%;}
+        .col-l-7 {width: 58.33333%;}
+        .col-l-8 {width: 66.66667%;}
+        .col-l-9 {width: 75%;}
+        .col-l-10 {width: 83.33333%;}
+        .col-l-11 {width: 91.66667%;}
+        .col-l-12 {width: 100%;}
+
+        .row{
+
+            display: flex;
+
+            flex-wrap: wrap;
+        }
+        [class*="col-l"] {
+            float: left;
+
+        }
+    </style>
+</head>
+
+<body>
+<div class="row">
+    <div class="col-l-12"><h1>Monday Times</h1></div>
+    <div class="col-l-12">
+        <div class="col-l-3">
+            <div class="col-l-2" > <p>News</p></div>
+            <div class="col-l-2"> <p>Sports</p></div>
+            <div class="col-l-2"> <p>Weather</p></div>
+        </div>
+        <div class="col-l-9"></div>
+</div>
+</div>
+</div>
+<div class="row">
+    <div class="col-l-12"><h1 style="background-color: grey">News Section</h1>
+
+            <div class="col-l-12"><h1>News Article</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+                   <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+                   <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+
+
+
+    </div>
+
+            <div class="col-l-12"><h1>News Article</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+
+                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+
+
+    </div>
+
+</div>
+
+</div>
+<div class="row">
+    <div class="col-l-12"><h3 style="background-color: grey">© 2014 Monday Times. All rights reserved.</h3>
+
+
+    </div>
+
+</div>
+
+
+</body>
+</html>
