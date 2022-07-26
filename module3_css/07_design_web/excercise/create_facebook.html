@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .col-1 {width: 8.33%;}
+        .col-2 {width: 16.66%;}
+        .col-3 {width: 25%;}
+        .col-4 {width: 33.33%;}
+        .col-5 {width: 41.66%;}
+        .col-6 {width: 50%;}
+        .col-7 {width: 58.33%;}
+        .col-8 {width: 66.66%;}
+        .col-9 {width: 75%;}
+        .col-10 {width: 83.33%;}
+        .col-11 {width: 91.66%;}
+        .col-12 {width: 100%;}
+
+        [class*="col-"] {
+            float: left;
+
+
+        }
+        .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        #header{
+            position: fixed;
+            top: 0;
+
+        }
+        /*.border {*/
+        /*    border: 1px solid black;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div class="col-12 row">
+    <div style="background-color: blue" class="col-12" id="header">
+        <div class="col-4">
+            <div class="col-4"><img style="width: 50px;height: 50px" src="https://upload.wikimedia.org/wikipedia/commons/1/16/Facebook-icon-1.png"></div>
+            <div class="col-2">
+                <p>Tìm Kiếm</p>
+            </div>
+            <div class="col-6">
+
+                    <input style="margin-top: 15px" name="name" type="text" value="">
+
+            </div>
+        </div>
+
+       <div class="col-8">
+           <div class="col-3">
+               <img src="icon/home.png">
+           </div>
+           <div class="col-3">
+               <img src="icon/messnge.png">
+               </div>
+           <div class="col-3">
+               <img style="width: 30px;height: 30px" src="icon/friend.png">
+               </div>
+           <div class="col-3">
+               <img style="height: 30px;width: 30px" src="icon/notification.gif">
+           </div>
+       </div>
+
+    </div>
+
+    <div class="col-12 row border" id="content">
+        <div class="col-3 border row" id="side-bar">
+            <div class="col-12 border">
+                <div class="col-12">
+                    <img src="icon/shopping.png">
+                </div>
+                <div class="col-12">
+                    <img style="height: 30px;width: 30px" src="icon/icons8-crowd-50.png">
+                     </div>
+                
+            </div>
+            
+
+            <div class="col-12 ">Loi tat</div>
+        </div>
+        <div class="col-6 border">
+            <img src="icon/person.png">
+
+            <p>Đà Nẵng là một thành phố trực thuộc trung ương, nằm trong vùng Duyên hải Nam Trung Bộ Việt Nam, là thành phố trung tâm và lớn nhất khu vực miền Trung - Tây Nguyên.
+
+                Thành phố Đà Nẵng là thành phố tổng hợp đa ngành, đa lĩnh vực; trung tâm chính trị - kinh tế - xã hội với vai trò là trung tâm công nghiệp, tài chính, du lịch, dịch vụ, văn hóa, giáo dục - đào tạo, y tế chất lượng cao, khoa học - công nghệ, khởi nghiệp, đổi mới sáng tạo của khu vực Miền Trung - Tây Nguyên và cả nước; trung tâm tổ chức các sự kiện tầm khu vực và quốc tế. Thành phố Đà Nẵng đóng vai trò hạt nhân, quan trọng trong Vùng kinh tế trọng điểm miền Trung, đồng thời cũng là một trong 5 thành phố trực thuộc Trung ương ở Việt Nam, đô thị loại I, trung tâm cấp quốc gia, cùng với Hải Phòng và Cần Thơ.</p>
+            
+
+        </div>
+        <div class="col-3 border">
+            <div class="col-12"> <img src="icon/person.png"></div>
+            <div class="col-12"> <img src="icon/person.png"></div>
+            <div class="col-12"> <img src="icon/person.png"></div>
+            <div class="col-12"> <img src="icon/person.png"></div>
+            <div class="col-12"> <img src="icon/person.png"></div>
+            <div class="col-12"> <img src="icon/person.png"></div>
+            <div class="col-12"> <img src="icon/person.png"></div>
+            <div class="col-12"> <img src="icon/person.png"></div>
+
+
+        </div>
+    </div>
+
+    <div style="background-color: #CDCDCD" class="col-12 row border" id="footer">
+        <p style="text-align: center">@facebook.com</p>
+    </div>
+</div>
+
+
+
+</body>
+</html>
